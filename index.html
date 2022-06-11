@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />4
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet"> 
+    <script src="library.js" defer></script>
+    <title>Manga Library | The Odin Project</title>
+</head>
+<body>
+    <h1>Personal Manga (漫画) Library</h1>
+    <ul id="library">
+    </ul>
+    <button class="add-item-btn">+ NEW SERIES</button>
+    <div class="modal-bg">
+        <div class="modal">
+            <span class="material-symbols-outlined close">close</span>
+            <h2>Add New Title</h2>
+            <form>
+                <div class="form-field">
+                    <label for="title" class="required-field">Title</label>
+                    <input type="text" name="title" id="title" required>
+                </div>
+                <div class="form-field">
+                    <label for="author" class="required-field">Author</label>
+                    <input type="text" name="author" id="author">
+                </div>
+                <div class="form-field">
+                    <label for="chapters">Chapters</label>
+                    <input type="number" name="chapters" id="chapters" min="1">
+                </div>
+                <div class="form-field">
+                    <label for="currentChapter">Current Chapter</label>
+                    <input type="number" name="currentChapter" id="currentChapter">
+                </div>
+                <div class="form-field">
+                    <label for="status">Status</label>
+                    <input type="text" name="status" id="status" placeholder='"completed", "ongoing" etc.'>
+                </div>
+                <button id="add-manga" type="submit">Add</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

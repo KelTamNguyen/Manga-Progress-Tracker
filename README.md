@@ -1,0 +1,1 @@
+A personal library and progress tracker for manga.
