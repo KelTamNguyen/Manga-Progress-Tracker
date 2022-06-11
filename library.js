@@ -5,6 +5,8 @@ var modalBg = document.querySelector('.modal-bg');
 var closeBtn = document.querySelector('.close');
 var submitBtn = document.querySelector('#add-manga');
 
+// Manga Object Section //
+
 /*
  * If Manga doesn't work out, maybe try music albums?
  */
@@ -15,12 +17,33 @@ function Manga(title, author, chapters, currentChapter, status) {
     this.chapters = chapters; // should be updatable
     this.currentChapter = currentChapter; // should be updatable
     this.status = status; // statuses include "completed", "ongoing", "cancelled", "hiatus", and "pending"
+    this.progress = this.calculateProgress(currentChapter, chapters);
 }
 
 // If you’re using constructors to make your objects it is best to define functions on the prototype of that object.
 Manga.prototype.info = function() {
-    return `${this.title} (${this.status}) by ${this.author}, ${this.chapters} chapters, current chapter: ${this.currentChapter}`;
+    return `${this.title} (${this.status}) by ${this.author}, progress: ${this.currentChapter}/${this.chapters}  (${this.progress}%)`;
 }
+
+/* 
+ * TODO: Add update functions for both current and total chapters to the prototype of Manga
+ */
+Manga.prototype.updateCurrentChapter = function(newCurrentChapter) {
+    this.currentChapter = newCurrentChapter;
+}
+
+/* 
+ * TODO: Add update functions for both current and total chapters to the prototype of Manga
+ */
+Manga.prototype.updateTotalChapter = function(newTotal) {
+    this.chapters = newTotal;
+}
+
+Manga.prototype.calculateProgress = function(currentChapter, totalChapters) {
+    return  ((currentChapter / totalChapters) * 100).toFixed(1);
+}
+
+// Library functions section //
 
 function addToLibrary(manga) {
     myLibrary.push(manga);
@@ -65,7 +88,7 @@ submitBtn.addEventListener('click', function(e) {
     authors.value = "";
     chapters.value = "";
     currentChapter.value = "";
-    status.value = "";
+    status.value = "ongoing";
 
     modalBg.classList.remove('modal-active');
 });
@@ -75,28 +98,18 @@ submitBtn.addEventListener('click', function(e) {
  *
  * Iterate through the array and compare the objects and compare to see if it already exists
  */
+function isDuplicate(item) {
+    for (manga in myLibrary) {
+        // return true if manga is the same object 
+        if ((item.title === manga.title) && (item.author == manga.author)) {
+
+        }
+    }
+}
 
 /*
  * TODO: add a button on each book’s display to remove the book from the library. 
  */
-
-/* 
- * TODO: Add a "progress" status for each Manga object to indicate how many chapters have been read. (possibly as a percentage??)
- */
-
-/* 
- * TODO: Add update functions for both current and total chapters to the prototype of Manga
- */
-Manga.prototype.updateCurrentChapter = function() {
-
-}
-
-/* 
- * TODO: Add update functions for both current and total chapters to the prototype of Manga
- */
-Manga.prototype.updateTotalChapter = function() {
-
-}
 
 
 // var theHobbit = new Book("The Hobbit", "J.R.R Tolkien", 295);

@@ -3,12 +3,22 @@
 }
 
 :root {
-    --color-secondary: rgb(255,183,197);
     --color-dark-pink: #e73895;
+    --color-secondary: rgb(255,183,197);
 }
 
 body {
-    text-align: center;
+}
+
+button {
+    align-items: center;
+    background: var(--color-dark-pink);
+    border-radius: 4px;
+    border: none;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
 }
 
 button[type = "submit"] {
@@ -46,24 +56,22 @@ form input {
 }
 
 .modal {
-    /* align-items: center; */
-    /* background-color: white; */
-    /* background: rgba(32, 32, 32, 0.9); */
+    align-items: center;
     background-color: white;
-    border-radius: 20px;
+    /* background: rgba(32, 32, 32, 0.9); */
+    /* border-radius: 20px; */
     color: var(--color-dark-pink);
     /* display: flex; */
     /* flex-direction: column; */
     height: 50%;
-    /* justify-content: center; */
+    justify-content: center;
+    padding: 12px;;
     position: relative;
     width: 50%;
-    padding: 12px;;
 }
 
 .modal h2 {
     color: var(--color-dark-pink);
-    /*  */
 }
 
 .required-field:after {
@@ -78,7 +86,13 @@ form input {
 }
 
 .close {
-    /* align-self: flex-end; */
+    align-self: flex-end;
     cursor: pointer;
+    /*  */
 }
 
+.logo {
+    align-items: center;
+    display: flex;
+    gap: 0.5rem;
+}
