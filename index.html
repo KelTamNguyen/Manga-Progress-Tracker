@@ -8,22 +8,26 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet"> 
+    <link rel="shortcut icon" href="./assets/icons/cherry-blossom.png" type="image/x-icon">
     <link rel="stylesheet" href="styles.css">
     <script src="library.js" defer></script>
     <title>Manga Library | The Odin Project</title>
 </head>
 <body>
-    <div class="logo">
-        <img src="./assets/icons/cherry-blossom.png" alt="logo">
-        <h1>Manga (漫画) Library</h1>
-    </div>
+    <header>
+        <div class="logo">
+            <img src="./assets/icons/cherry-blossom.png" alt="logo">
+            <h1>Manga (漫画) Library</h1>
+        </div>
+    </header>
     <ul id="library">
     </ul>
+    <div class="content"></div>
     <button class="add-item-btn"><span class="material-symbols-outlined">add</span> New Series</button>
     <div class="modal-bg">
         <div class="modal">
             <span class="material-symbols-outlined close">close</span>
-            <h2>Add New Title</h2>
+            <h1>Add New Title</h1>
             <form>
                 <div class="form-field">
                     <label for="title" class="required-field">Title</label>
@@ -31,14 +35,14 @@
                 </div>
                 <div class="form-field">
                     <label for="author" class="required-field">Author</label>
-                    <input type="text" name="author" id="author">
+                    <input type="text" name="author" id="author" required>
                 </div>
                 <div class="form-field">
-                    <label for="chapters">Chapters</label>
+                    <label for="chapters" class="required-field">Chapters</label>
                     <input type="number" name="chapters" id="chapters" min="1">
                 </div>
                 <div class="form-field">
-                    <label for="currentChapter">Current Chapter</label>
+                    <label for="currentChapter" class="required-field">Current Chapter</label>
                     <input type="number" name="currentChapter" id="currentChapter">
                 </div>
                 <div class="form-field">
@@ -49,11 +53,13 @@
                         <option value="hiatus">hiatus</option>
                         <option value="pending">pending</option>
                     </select>
-                    <!-- <input type="text" name="status" id="status" placeholder='"completed", "ongoing" etc.'> -->
                 </div>
                 <button id="add-manga" type="submit">Add</button>
             </form>
+            <p class="error-msg"></p>
         </div>
     </div>
+    <a href="https://www.flaticon.com/free-icons/stamp" title="stamp icons">Stamp icons created by mynamepong - Flaticon</a>
+    <footer></footer>
 </body>
 </html>
