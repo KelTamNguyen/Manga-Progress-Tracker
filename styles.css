@@ -8,6 +8,7 @@
     --color-green: #50C878;
     --color-secondary: #d65b9d;
     --gradient: repeating-linear-gradient(135deg, #039BE5 0px, #039BE5 20px, #90CAF9 20px, #90CAF9 40px);
+    --card-shadow: box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;;
 }
 
 body {
@@ -36,7 +37,6 @@ button:hover {
 }
 
 button[type = "submit"] {
-    border-radius: 8px;
     border: 2px solid var(--color-dark-pink);
     font-size: 1.25rem;
     grid-column: 1 / 3;
@@ -50,14 +50,13 @@ form {
 }
 
 form input {
-    border-radius: 6px;
     border: solid 1px var(--color-dark-blue);
     font-size: 1rem;
 }
 
 form select {
-    border-radius: 6px;
     border: solid 1px var(--color-dark-blue);
+    font-size: 1rem;
 }
 
 label {
@@ -95,11 +94,9 @@ header {
     align-items: center;
     background-color: white;
     color: var(--color-dark-pink);
-    height: 45%;
     justify-content: center;
     padding: 12px;;
     position: relative;
-    width: 50%;
 }
 
 .modal h2 {
@@ -117,7 +114,7 @@ header {
     text-align: left;
 }
 
-.close {
+.close-modal {
     color: gray;
     cursor: pointer;
     position: absolute;
@@ -139,4 +136,31 @@ header {
 .error-msg {
     color: red;
     text-align: center;
+}
+
+
+.container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
+
+.card {
+    background: white;
+    /* width: 20vw; */
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    box-shadow: var(--card-shadow);
+    
+}
+
+.author {
+    font-weight: bold;
+    color: var(--color-dark-blue);
+    margin: 0;
+}
+
+.title {
+    color: var(--color-dark-pink);
+    margin: 0;
 }

@@ -2,7 +2,7 @@ let myLibrary = [];
 var library = document.getElementById('library');
 var addItemBtn = document.querySelector('.add-item-btn');
 var modalBg = document.querySelector('.modal-bg');
-var closeBtn = document.querySelector('.close');
+var closeBtn = document.querySelector('.close-modal');
 var submitBtn = document.querySelector('#add-manga');
 let errorMsg = document.querySelector('.error-msg');
 
@@ -48,6 +48,10 @@ Manga.prototype.calculateProgress = function(currentChapter, totalChapters) {
 
 function addToLibrary(manga) {
     myLibrary.push(manga);
+}
+
+function removeFromLibrary(manga) {
+
 }
 
 function renderLibrary() {
