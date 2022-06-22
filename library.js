@@ -54,6 +54,11 @@ function removeFromLibrary(manga) {
 
 }
 
+
+/*
+ * TODO: Make renderLibrary render cards instead of list elements
+ */
+
 function renderLibrary() {
     for (manga of myLibrary) {
         console.log(manga.info());

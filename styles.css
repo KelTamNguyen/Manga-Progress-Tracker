@@ -9,6 +9,7 @@
     --color-secondary: #d65b9d;
     --gradient: repeating-linear-gradient(135deg, #039BE5 0px, #039BE5 20px, #90CAF9 20px, #90CAF9 40px);
     --card-shadow: box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;;
+    --dark-red: #c80000;
 }
 
 body {
@@ -64,7 +65,8 @@ label {
 }
 
 header {
-    background: var(--color-green);
+    /* background: var(--color-green); */
+    background: var(--dark-red);
     box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
     padding: 0 0.75rem;
     z-index: 1;
@@ -122,7 +124,7 @@ header {
     top: 12px;
 }
 
-.close:hover {
+.close-modal:hover {
     color: darkgray;
 }
 
@@ -139,16 +141,17 @@ header {
 }
 
 
-.container {
+.book-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    /* grid-template-columns: repeat(4, 1fr); */
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 12px;
 }
 
 .card {
     background: white;
     /* width: 20vw; */
-    padding: 0.5rem;
+    padding: 0.75rem;
     border-radius: 0.5rem;
     box-shadow: var(--card-shadow);
     
@@ -157,10 +160,52 @@ header {
 .author {
     font-weight: bold;
     color: var(--color-dark-blue);
-    margin: 0;
 }
 
 .title {
     color: var(--color-dark-pink);
     margin: 0;
+}
+
+.actions {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: end;
+    margin-bottom: 0.5rem;
+    align-items: center;
+}
+
+.actions span:hover {
+    cursor: pointer;
+    color: darkgray;
+}
+
+.text-content > * {
+    margin: 4px 0;
+}
+
+.progress {
+    margin-top: 0.5rem;
+    position: relative;
+    border: 1px solid black;
+    box-sizing: content-box;
+}
+
+.bar {
+    background: var(--color-green);
+    height: 1rem;
+    padding: 4px 0;
+}
+
+.percent {
+    position: absolute;
+    display:inline-block;
+    top:3px;
+    left:50%;
+    transform: translate(-50%, 0);
+}
+
+.add-item-btn {
+    padding: 0.5rem;
+    font-size: 1rem;
 }
