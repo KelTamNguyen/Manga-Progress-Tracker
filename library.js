@@ -1,9 +1,10 @@
-let myLibrary = [];
+var myLibrary = [];
 var library = document.getElementById('library');
 var addItemBtn = document.querySelector('.add-item-btn');
 var modalBg = document.querySelector('.modal-bg');
 var closeBtn = document.querySelector('.close-modal');
 var submitBtn = document.querySelector('#add-manga');
+var bookGrid = document.querySelector('.book-grid');
 let errorMsg = document.querySelector('.error-msg');
 
 // Manga Object Section //
@@ -19,6 +20,7 @@ function Manga(title, author, chapters, currentChapter, status) {
     this.currentChapter = currentChapter; // should be updatable
     this.status = status; // statuses include "completed", "ongoing", "cancelled", "hiatus", and "pending"
     this.progress = this.calculateProgress(currentChapter, chapters);
+
 }
 
 // If you’re using constructors to make your objects it is best to define functions on the prototype of that object.
@@ -54,6 +56,50 @@ function removeFromLibrary(manga) {
 
 }
 
+function createCard(manga) {
+    let card = document.createElement('div');
+    card.classList.add('card');
+
+    let actions = document.createElement('div');
+    actions.classList.add('actions');
+    let textContent = document.createElement('div');
+    textContent.classList.add('text-content');
+    let progress = document.createElement('div');
+    progress.classList.add('progress');
+
+    let editBtn = document.createElement('span');
+    editBtn.classList.add('material-symbols-outlined', 'edit');
+    editBtn.textContent = 'edit';
+    let closeBtn = document.createElement('span');
+    closeBtn.classList.add('material-symbols-outlined');
+    closeBtn.textContent = 'close';
+    actions.appendChild(editBtn);
+    actions.appendChild(closeBtn);
+    card.appendChild(actions);
+
+    let title = document.createElement('h2');
+    title.classList.add('title');
+    title.textContent = manga.title;
+    let byLine = document.createElement('p');
+    byLine.innerHTML = `by <span class="author">${manga.author}</span>`;
+    let statusLine = document.createElement('p');
+    statusLine.textContent = `status: ${manga.status}`;
+    let progressLine = document.createElement('p');
+    progressLine.textContent = `${manga.currentChapter}/${manga.chapters} chapters read (${manga.progress})`;
+    textContent.append(title, byLine, statusLine, progressLine);
+    card.appendChild(textContent);
+
+    let percent = document.createElement('div');
+    percent.textContent = `${manga.progress}%`;
+    percent.classList.add('percent');
+    let bar = document.createElement('div');
+    bar.classList.add('bar');
+    bar.style.width = `${manga.progress}%`;
+    progress.append(percent, bar);
+    card.appendChild(progress);
+    bookGrid.appendChild(card);
+}
+
 
 /*
  * TODO: Make renderLibrary render cards instead of list elements
@@ -62,9 +108,7 @@ function removeFromLibrary(manga) {
 function renderLibrary() {
     for (manga of myLibrary) {
         console.log(manga.info());
-        let item = document.createElement('li');
-        item.textContent = manga.info();
-        library.appendChild(item);
+        createCard(manga);
     }
 }
 
@@ -87,15 +131,13 @@ submitBtn.addEventListener('click', function(e) {
 
     if ((title.value !== "") && (author.value !== "") && ((!isNaN(chapters.value) && !isNaN(currentChapter.value)) && (currentChapter.value <= chapters.value))) {
         let newManga = new Manga(title.value, author.value, chapters.value, currentChapter.value, status.value);
-        myLibrary.push(newManga);
+        // myLibrary.push(newManga); // let's keep this here for debugging?
+        addToLibrary(newManga);
+        createCard(newManga);
 
-        // create a new card or entry and append it to the DOM
-        let newElement = document.createElement('li');
-        newElement.textContent = newManga.info();
-        library.appendChild(newElement);    
 
         // for now, the form elements will need to be cleared manually
-        // but this should not be needed once there is an actual backend
+        // but this should not be needed if/when there is an actual backend
         title.value = "";
         author.value = "";
         chapters.value = "";
@@ -147,8 +189,4 @@ addToLibrary(badThinkingDiary);
 addToLibrary(unlock99);
 addToLibrary(oreDake);
 addToLibrary(married);
-// addToLibrary(married2);
-// console.log(myLibrary);
-// console.log(married.info());
 renderLibrary();
-console.log(isDuplicate(married2));
