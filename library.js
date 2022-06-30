@@ -5,7 +5,19 @@ var modalBg = document.querySelector('.modal-bg');
 var closeBtn = document.querySelector('.close-modal');
 var submitBtn = document.querySelector('#add-manga');
 var bookGrid = document.querySelector('.book-grid');
+var clearStorageBtn = document.getElementById('clear-storage');
 let errorMsg = document.querySelector('.error-msg');
+
+addItemBtn.addEventListener('click', function(e) {
+    modalBg.classList.add('modal-active');
+});
+
+closeBtn.addEventListener('click', function(e) {
+    resetForm();
+    modalBg.classList.remove('modal-active');
+});
+
+clearStorageBtn.addEventListener('click', clearLocalStorage);
 
 // Manga Object Section //
 
@@ -13,26 +25,26 @@ let errorMsg = document.querySelector('.error-msg');
  * If Manga doesn't work out, maybe try music albums?
  */
 
-function Manga(title, author, chapters, currentChapter, status) {
+function Manga(title, author, chapters, chaptersRead, status) {
     this.title = title;
     this.author = author;
     this.chapters = chapters; // should be updatable
-    this.currentChapter = currentChapter; // should be updatable
+    this.chaptersRead = chaptersRead; // should be updatable
     this.status = status; // statuses include "completed", "ongoing", "cancelled", "hiatus", and "pending"
-    this.progress = this.calculateProgress(currentChapter, chapters);
+    this.progress = this.calculateProgress(chaptersRead, chapters);
 
 }
 
 // If you’re using constructors to make your objects it is best to define functions on the prototype of that object.
 Manga.prototype.info = function() {
-    return `${this.title} (${this.status}) by ${this.author}, progress: ${this.currentChapter}/${this.chapters}  (${this.progress}%)`;
+    return `${this.title} (${this.status}) by ${this.author}, progress: ${this.chaptersRead}/${this.chapters}  (${this.progress}%)`;
 }
 
 /* 
  * TODO: Add update functions for both current and total chapters to the prototype of Manga
  */
-Manga.prototype.updateCurrentChapter = function(newCurrentChapter) {
-    this.currentChapter = newCurrentChapter;
+Manga.prototype.updateChaptersRead = function(newCurrentChapter) {
+    this.chaptersRead = newCurrentChapter;
 }
 
 /* 
@@ -50,9 +62,14 @@ Manga.prototype.calculateProgress = function(currentChapter, totalChapters) {
 
 function addToLibrary(manga) {
     myLibrary.push(manga);
+    localStorage.setItem('myLibrary', JSON.stringify(myLibrary));
 }
 
 function removeFromLibrary(manga) {
+
+}
+
+function editLibraryItem(manga) {
 
 }
 
@@ -70,9 +87,13 @@ function createCard(manga) {
     let editBtn = document.createElement('span');
     editBtn.classList.add('material-symbols-outlined', 'edit');
     editBtn.textContent = 'edit';
+    // editBtn.addEventListener('click', editLibraryItem());
+    // editBtn.onclick = editLibraryItem;
     let closeBtn = document.createElement('span');
     closeBtn.classList.add('material-symbols-outlined');
     closeBtn.textContent = 'close';
+    // closeBtn.addEventListener('click', removeFromLibrary());
+    // closeBtn.onclick = removeFromLibrary;
     actions.appendChild(editBtn);
     actions.appendChild(closeBtn);
     card.appendChild(actions);
@@ -83,9 +104,9 @@ function createCard(manga) {
     let byLine = document.createElement('p');
     byLine.innerHTML = `by <span class="author">${manga.author}</span>`;
     let statusLine = document.createElement('p');
-    statusLine.textContent = `status: ${manga.status}`;
+    statusLine.innerHTML = `status: <span class="${manga.status}">${manga.status}</span>`;
     let progressLine = document.createElement('p');
-    progressLine.textContent = `${manga.currentChapter}/${manga.chapters} chapters read (${manga.progress})`;
+    progressLine.textContent = `progress: ${manga.chaptersRead}/${manga.chapters} chapters read (${manga.progress}%)`;
     textContent.append(title, byLine, statusLine, progressLine);
     card.appendChild(textContent);
 
@@ -99,27 +120,6 @@ function createCard(manga) {
     card.appendChild(progress);
     bookGrid.appendChild(card);
 }
-
-
-/*
- * TODO: Make renderLibrary render cards instead of list elements
- */
-
-function renderLibrary() {
-    for (manga of myLibrary) {
-        console.log(manga.info());
-        createCard(manga);
-    }
-}
-
-addItemBtn.addEventListener('click', function(e) {
-    modalBg.classList.add('modal-active');
-});
-
-closeBtn.addEventListener('click', function(e) {
-    resetForm();
-    modalBg.classList.remove('modal-active');
-});
 
 submitBtn.addEventListener('click', function(e) {
     e.preventDefault();
@@ -135,7 +135,7 @@ submitBtn.addEventListener('click', function(e) {
         addToLibrary(newManga);
         createCard(newManga);
 
-
+        
         // for now, the form elements will need to be cleared manually
         // but this should not be needed if/when there is an actual backend
         title.value = "";
@@ -144,7 +144,7 @@ submitBtn.addEventListener('click', function(e) {
         currentChapter.value = "";
         status.value = "ongoing";
         errorMsg.textContent = "";
-
+        
         modalBg.classList.remove('modal-active');
     }
     else {
@@ -172,21 +172,39 @@ function resetForm() {
     errorMsg.textContent = "";
 }
 
-// Card Component Section //
-
-/*
- * TODO: add a button on each book’s display to remove the book from the library. 
- */
-
-
 // var theHobbit = new Book("The Hobbit", "J.R.R Tolkien", 295);
 var badThinkingDiary = new Manga("Bad Thinking Diary", "Park Do-han", 7, 1, "ongoing");
 var unlock99 = new Manga("Unlock 99 Heroines in End Times", "Mr. Two Cats", 134, 45, "ongoing");
 var oreDake = new Manga("Ore Dake ni Koakuma na Doukyuusei", "Rifuru", 8, 1, "completed");
 var married = new Manga("I Got Married to a Villain", "빡킬 (copin) / 사동 / 십삼월의새벽", 1, 1, "cancelled");
 var married2 = new Manga("I Got Married to a Villain", "빡킬 (copin) / 사동 / 십삼월의새벽", 1, 1, "cancelled");
-addToLibrary(badThinkingDiary);
-addToLibrary(unlock99);
-addToLibrary(oreDake);
-addToLibrary(married);
-renderLibrary();
+// addToLibrary(badThinkingDiary);
+// addToLibrary(unlock99);
+// addToLibrary(oreDake);
+// addToLibrary(married);
+// renderLibrary();
+
+function updateBookGrid() {
+    resetBookGrid();
+    if (localStorage.getItem('myLibrary')) {
+        myLibrary = JSON.parse(localStorage.getItem('myLibrary'));
+    }
+    for (manga of myLibrary) {
+        createCard(manga);
+    }
+}
+
+function resetBookGrid() {
+    bookGrid.innerHTML = '';
+}
+
+// localstorage functions
+
+function clearLocalStorage() {
+    localStorage.clear()
+    myLibrary = [];
+    updateBookGrid();
+}
+
+// make sure it update the grid upon loading the page
+updateBookGrid();

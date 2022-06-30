@@ -20,9 +20,10 @@
             <h1>Manga (漫画) Library</h1>
         </div>
     </header>
-    <ul id="library">
-    </ul>
-    <button class="add-item-btn" title="New Series"><span class="material-symbols-outlined">add</span> New Series</button>
+    <div id="btn-group">
+        <button class="add-item-btn" title="New Series"><span class="material-symbols-outlined">add</span> New Series</button>
+        <button id="clear-storage"><span class="material-symbols-outlined">backspace</span>Clear storage</button>
+    </div>
     <div class="book-grid"></div>
     <div class="modal-bg">
         <div class="modal">
@@ -34,7 +35,7 @@
                     <input type="text" name="title" id="title" required>
                 </div>
                 <div class="form-field">
-                    <label for="author" class="required-field">Author</label>
+                    <label for="author" class="required-field">Author(s)</label>
                     <input type="text" name="author" id="author" required>
                 </div>
                 <div class="form-field">
@@ -42,13 +43,14 @@
                     <input type="number" name="chapters" id="chapters" min="1">
                 </div>
                 <div class="form-field">
-                    <label for="currentChapter" class="required-field">Current Chapter</label>
+                    <label for="currentChapter" class="required-field">Chapters Read</label>
                     <input type="number" name="currentChapter" id="currentChapter">
                 </div>
                 <div class="form-field">
                     <label for="status">Status</label>
                     <select name="status" id="status">
                         <option value="ongoing">ongoing</option>
+                        <option value="completed">completed</option>
                         <option value="cancelled">cancelled</option>
                         <option value="hiatus">hiatus</option>
                         <option value="pending">pending</option>
