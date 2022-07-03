@@ -119,11 +119,11 @@ function removeFromLibrary(id) {
     }
 }
 
-function editLibraryItem(manga) {
-    openEditModal(manga);
-}
+// function editLibraryItem(manga) {
+//     openEditModal(manga);
+// }
 
-function openEditModal(manga) {
+function editLibraryItem(manga) {
     editModalError.textContent = "";
     editMangaModal.classList.add('modal-active');
     let titleField = document.querySelector('#edit-title');
@@ -193,10 +193,12 @@ function createCard(manga) {
     let editBtn = document.createElement('span');
     editBtn.classList.add('material-symbols-outlined', 'edit');
     editBtn.textContent = 'edit';
+    editBtn.title = 'edit';
     editBtn.addEventListener('click', () => editLibraryItem(manga));
     let closeBtn = document.createElement('span');
     closeBtn.classList.add('material-symbols-outlined');
     closeBtn.textContent = 'close';
+    closeBtn.title = 'remove';
     closeBtn.addEventListener('click', () => removeFromLibrary(id));
     actions.appendChild(editBtn);
     actions.appendChild(closeBtn);
@@ -204,6 +206,9 @@ function createCard(manga) {
 
     let titleLine = document.createElement('h2');
     titleLine.classList.add('title');
+    if (progress === "100.0") {
+        titleLine.classList.add('finished-title')
+    }
     titleLine.textContent = title;
     let byLine = document.createElement('p');
     byLine.innerHTML = `by <span class="author">${author}</span>`;
@@ -266,11 +271,11 @@ var unlock99 = new Manga("Unlock 99 Heroines in End Times", "Mr. Two Cats", 134,
 var oreDake = new Manga("Ore Dake ni Koakuma na Doukyuusei", "Rifuru", 8, 1, "completed");
 var married = new Manga("I Got Married to a Villain", "빡킬 (copin) / 사동 / 십삼월의새벽", 1, 1, "cancelled");
 var married2 = new Manga("I Got Married to a Villain", "빡킬 (copin) / 사동 / 십삼월의새벽", 1, 1, "cancelled");
-addToLibrary(badThinkingDiary);
-addToLibrary(unlock99);
-addToLibrary(oreDake);
-addToLibrary(married);
-addToLibrary(married2);
+// addToLibrary(badThinkingDiary);
+// addToLibrary(unlock99);
+// addToLibrary(oreDake);
+// addToLibrary(married);
+// addToLibrary(married2);
 
 // make sure it update the grid upon loading the page
 updateBookGrid();

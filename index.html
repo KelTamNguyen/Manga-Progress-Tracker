@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet"> 
     <link rel="shortcut icon" href="./assets/icons/cherry-blossom.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
     <link rel="stylesheet" href="styles.css">
     <script src="library.js" defer></script>
     <title>Manga Library | The Odin Project</title>
@@ -19,12 +20,15 @@
             <img src="./assets/icons/cherry-blossom.png" alt="logo">
             <h1>Manga (漫画) Library</h1>
         </div>
+        <a href="https://github.com/KelTamNguyen" class="nav-icon" target="_blank"><i class="fab fa-github fa-2x"></i></a>
     </header>
-    <div id="btn-group">
-        <button class="add-item-btn" title="New Series"><span class="material-symbols-outlined">add</span> New Series</button>
-        <button id="clear-storage"><span class="material-symbols-outlined">backspace</span>Clear storage</button>
+    <div id="content">
+        <div id="btn-group">
+            <button class="add-item-btn" title="New Series"><span class="material-symbols-outlined">add</span> New Series</button>
+            <button id="clear-storage"><span class="material-symbols-outlined">backspace</span>Clear storage</button>
+        </div>
+        <div class="book-grid"></div>
     </div>
-    <div class="book-grid"></div>
     <div id="new-manga-modal" class="modal-bg">
         <div class="modal">
             <span id="close-add-modal" class="material-symbols-outlined close-modal">close</span>
@@ -98,7 +102,8 @@
         </div>
     </div>
     <footer>
-        <a href="https://www.flaticon.com/free-icons/stamp" title="stamp icons">Stamp icons created by mynamepong - Flaticon</a>
+        <p>Tick icons created by <a href="https://www.flaticon.com/free-icons/tick" title="tick icons">Roundicons - Flaticon</a></p>
+        <p>The Odin Project</p>
     </footer>
 </body>
 </html>
