@@ -58,14 +58,14 @@
                 </div>
                 <button id="add-manga" type="submit">Add</button>
             </form>
-            <p class="error-msg"></p>
+            <p id="add-modal-error" class="error-msg"></p>
         </div>
     </div>
     <div id="edit-manga-modal" class="modal-bg">
         <div class="modal">
             <span id="close-edit-modal" class="material-symbols-outlined close-modal">close</span>
             <h1 class="modal-title">Edit Series</h1>
-            <form>
+            <form name="edit">
                 <div class="form-field">
                     <label for="edit-title" class="required-field">Title</label>
                     <input type="text" name="edit-title" id="edit-title" required>
@@ -94,6 +94,7 @@
                 </div>
                 <button id="edit-manga" type="submit">Make Changes</button>
             </form>
+            <p id="edit-modal-error" class="error-msg"></p>
         </div>
     </div>
     <footer>

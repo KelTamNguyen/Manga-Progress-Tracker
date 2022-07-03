@@ -9,7 +9,9 @@ var addBtn = document.querySelector('#add-manga');
 var editBtn = document.querySelector('#edit-manga')
 var bookGrid = document.querySelector('.book-grid');
 var clearStorageBtn = document.getElementById('clear-storage');
-let errorMsg = document.querySelector('.error-msg');
+var addModalError = document.getElementById('add-modal-error');
+var editModalError = document.getElementById('edit-modal-error');
+// let errorMsg = document.querySelector('.error-msg');
 
 addItemBtn.addEventListener('click', function(e) {
     newMangaModal.classList.add('modal-active');
@@ -24,7 +26,7 @@ closeEditModal.addEventListener('click', function(e) {
     editMangaModal.classList.remove('modal-active');
 });
 
-clearStorageBtn.addEventListener('click', clearLocalStorage);
+clearStorageBtn.addEventListener('click', clearLocalLibrary);
 
 addBtn.addEventListener('click', function(e) {
     e.preventDefault();
@@ -34,7 +36,9 @@ addBtn.addEventListener('click', function(e) {
     let chaptersRead = document.querySelector('#chaptersRead');
     let status = document.querySelector('#status');
 
-    if ((title.value !== "") && (author.value !== "") && ((!isNaN(chapters.value) && !isNaN(chaptersRead.value)) && (chaptersRead.value <= chapters.value))) {
+    if ((title.value !== "") && (author.value !== "") && 
+        ((!isNaN(chapters.value) && !isNaN(chaptersRead.value)) && 
+        (chaptersRead.value <= chapters.value))) {
         let newManga = new Manga(title.value, author.value, chapters.value, chaptersRead.value, status.value);
         addToLibrary(newManga);
         createCard(newManga);
@@ -44,28 +48,21 @@ addBtn.addEventListener('click', function(e) {
         chapters.value = "";
         chaptersRead.value = "";
         status.value = "ongoing";
-        errorMsg.textContent = "";
+        addModalError.textContent = "";
         
         newMangaModal.classList.remove('modal-active');
     }
     else {
-        if (chaptersRead.value > chapters.value) {
-            errorMsg.textContent = '* Current Chapter is greater than Chapters';
-        }
-        else {
-            errorMsg.textContent = '* Please fill all required fields';
-        }
+        // if (chaptersRead.value > chapters.value) {
+        //     console.log('chapters: ', chapters.value);
+        //     addModalError.textContent = '* Chapters read is greater than Chapters';
+        // }
+        // else {
+        //     addModalError.textContent = '* Please fill all required fields';
+        // }
+        addModalError.textContent = '* Please refill the form';
     }
 });
-
-editBtn.addEventListener('click', function(e) {
-    e.preventDefault();
-    let titleField = document.querySelector('#edit-title');
-    let authorField = document.querySelector('#edit-author');
-    let chaptersField = document.querySelector('#edit-chapters');
-    let chaptersReadField = document.querySelector('#edit-chaptersRead');
-    let statusField = document.querySelector('#edit-status');
-})
 
 function resetBookGrid() {
     bookGrid.innerHTML = '';
@@ -80,6 +77,7 @@ function Manga(title, author, chapters, chaptersRead, status) {
     this.chaptersRead = chaptersRead; // should be updatable
     this.status = status; // statuses include "completed", "ongoing", "cancelled", "hiatus", and "pending"
     this.progress = this.calculateProgress(chaptersRead, chapters);
+    this.id = Math.floor(Math.random() * 100); // there is probably a better way to do this
 }
 
 // If you’re using constructors to make your objects it is best to define functions on the prototype of that object.
@@ -90,19 +88,19 @@ Manga.prototype.info = function() {
 /* 
  * TODO: Add update functions for both current and total chapters to the prototype of Manga
  */
-Manga.prototype.updateChaptersRead = function(newCurrentChapter) {
-    this.chaptersRead = newCurrentChapter;
+Manga.prototype.updateChaptersRead = function(newChaptersRead) {
+    this.chaptersRead = newChaptersRead;
 }
 
 /* 
  * TODO: Add update functions for both current and total chapters to the prototype of Manga
  */
-Manga.prototype.updateTotalChapter = function(newTotal) {
+Manga.prototype.updateTotalChapters = function(newTotal) {
     this.chapters = newTotal;
 }
 
-Manga.prototype.calculateProgress = function(currentChapter, totalChapters) {
-    return  ((currentChapter / totalChapters) * 100).toFixed(1);
+Manga.prototype.calculateProgress = function(chaptersRead, totalChapters) {
+    return  ((chaptersRead / totalChapters) * 100).toFixed(1);
 }
 
 // Library functions section //
@@ -113,35 +111,75 @@ function addToLibrary(manga) {
     localStorage.setItem('myLibrary', JSON.stringify(myLibrary));
 }
 
-function removeFromLibrary(title) {
+function removeFromLibrary(id) {
     if(localStorage.getItem('myLibrary')) {
-        myLibrary = myLibrary.filter((manga) => manga.title !== title);
+        myLibrary = myLibrary.filter((manga) => manga.id !== id);
         localStorage.setItem('myLibrary', JSON.stringify(myLibrary));
         updateBookGrid();
     }
 }
 
 function editLibraryItem(manga) {
-    openEditModal();
+    openEditModal(manga);
 }
 
-function openEditModal() {
+function openEditModal(manga) {
+    editModalError.textContent = "";
     editMangaModal.classList.add('modal-active');
     let titleField = document.querySelector('#edit-title');
     let authorField = document.querySelector('#edit-author');
     let chaptersField = document.querySelector('#edit-chapters');
     let chaptersReadField = document.querySelector('#edit-chaptersRead');
     let statusField = document.querySelector('#edit-status');
-    const {title, author, chapters, chaptersRead, status, progress} = manga;
+    const {title, author, chapters, chaptersRead, status, progress, id} = manga;
     titleField.value = title;
     authorField.value = author;
     chaptersField.value = chapters;
     chaptersReadField.value = chaptersRead;
     statusField.value = status;
+    
+    editBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        console.log(
+            `title: ${titleField.value}\n
+            author: ${authorField.value}\n
+            chapters: ${chaptersField.value}\n
+            chapters read: ${chaptersReadField.value}\n
+            status: ${statusField.value}\n
+            id: ${id}`
+        );
+    
+        if ((titleField.value !== "") && (authorField.value !== "") && 
+            ((!isNaN(chaptersField.value) && !isNaN(chaptersReadField.value)) && (chaptersReadField.value <= chaptersField.value))) {
+            let currentLibrary = JSON.parse(localStorage.getItem('myLibrary'));
+            let targetItem = currentLibrary.find(item => item.id === id);
+            let targetIndex = currentLibrary.indexOf(targetItem);
+            console.log('Before changes:\n',currentLibrary);
+            console.log('target item:\n',targetItem);
+            console.log('taget index:', targetIndex);
+
+            // apply changes to the target item
+            currentLibrary[targetIndex].title = titleField.value;
+            currentLibrary[targetIndex].author = authorField.value;
+
+            // figure out how prototype method calls work again
+            currentLibrary[targetIndex].chaptersRead = chaptersReadField.value;
+            currentLibrary[targetIndex].chapters = chaptersField.value;
+            currentLibrary[targetIndex].progress = ((chaptersReadField.value / chaptersField.value) * 100).toFixed(1);
+            currentLibrary[targetIndex].status = statusField.value;
+            console.log('After changes:\n',currentLibrary);
+            localStorage.setItem('myLibrary', JSON.stringify(currentLibrary));
+            editMangaModal.classList.remove('modal-active');
+            updateBookGrid()
+        }
+        else {
+            editModalError.textContent = '* Please refill the form';
+        }
+    });
 }
 
 function createCard(manga) {
-    const {title, author, chapters, chaptersRead, status, progress} = manga;
+    const {title, author, chapters, chaptersRead, status, progress, id} = manga;
     let card = document.createElement('div');
     card.classList.add('card');
 
@@ -159,7 +197,7 @@ function createCard(manga) {
     let closeBtn = document.createElement('span');
     closeBtn.classList.add('material-symbols-outlined');
     closeBtn.textContent = 'close';
-    closeBtn.addEventListener('click', () => removeFromLibrary(title));
+    closeBtn.addEventListener('click', () => removeFromLibrary(id));
     actions.appendChild(editBtn);
     actions.appendChild(closeBtn);
     card.appendChild(actions);
@@ -200,7 +238,7 @@ function resetAddForm() {
     chapters.value = "";
     chaptersRead.value = "";
     status.value = "ongoing";
-    errorMsg.textContent = "";
+    addModalError.textContent = "";
 }
 
 // localStorage features Section //
@@ -215,8 +253,8 @@ function updateBookGrid() {
     }
 }
 
-function clearLocalStorage() {
-    localStorage.clear()
+function clearLocalLibrary() {
+    localStorage.removeItem('myLibrary');
     myLibrary = [];
     updateBookGrid();
 }
@@ -228,10 +266,11 @@ var unlock99 = new Manga("Unlock 99 Heroines in End Times", "Mr. Two Cats", 134,
 var oreDake = new Manga("Ore Dake ni Koakuma na Doukyuusei", "Rifuru", 8, 1, "completed");
 var married = new Manga("I Got Married to a Villain", "빡킬 (copin) / 사동 / 십삼월의새벽", 1, 1, "cancelled");
 var married2 = new Manga("I Got Married to a Villain", "빡킬 (copin) / 사동 / 십삼월의새벽", 1, 1, "cancelled");
-// addToLibrary(badThinkingDiary);
-// addToLibrary(unlock99);
-// addToLibrary(oreDake);
-// addToLibrary(married);
+addToLibrary(badThinkingDiary);
+addToLibrary(unlock99);
+addToLibrary(oreDake);
+addToLibrary(married);
+addToLibrary(married2);
 
 // make sure it update the grid upon loading the page
 updateBookGrid();
