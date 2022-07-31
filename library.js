@@ -1,3 +1,5 @@
+// import Manga from './manga.js';
+
 // DOM Manipulation Section //
 var library = document.getElementById('library');
 var addItemBtn = document.querySelector('.add-item-btn');
@@ -69,38 +71,32 @@ function resetBookGrid() {
 }
 
 // Manga Object Section //
+class Manga {
+    constructor(title, author, chapters, chaptersRead, status) {
+        this.title = title;
+        this.author = author;
+        this.chapters = chapters; // should be updatable
+        this.chaptersRead = chaptersRead; // should be updatable
+        this.status = status; // statuses include "completed", "ongoing", "cancelled", "hiatus", and "pending"
+        this.progress = this.calculateProgress(chaptersRead, chapters);
+        this.id = Math.floor(Math.random() * 100); // there is probably a better way to do this
+    }
 
-function Manga(title, author, chapters, chaptersRead, status) {
-    this.title = title;
-    this.author = author;
-    this.chapters = chapters; // should be updatable
-    this.chaptersRead = chaptersRead; // should be updatable
-    this.status = status; // statuses include "completed", "ongoing", "cancelled", "hiatus", and "pending"
-    this.progress = this.calculateProgress(chaptersRead, chapters);
-    this.id = Math.floor(Math.random() * 100); // there is probably a better way to do this
-}
+    info() {
+        return `${this.title} (${this.status}) by ${this.author}, progress: ${this.chaptersRead}/${this.chapters}  (${this.progress}%)`;
+    }
 
-// If you’re using constructors to make your objects it is best to define functions on the prototype of that object.
-Manga.prototype.info = function() {
-    return `${this.title} (${this.status}) by ${this.author}, progress: ${this.chaptersRead}/${this.chapters}  (${this.progress}%)`;
-}
+    set updateChaptersRead(newChaptersRead) {
+        this.chaptersRead = newChaptersRead;
+    }
 
-/* 
- * TODO: Add update functions for both current and total chapters to the prototype of Manga
- */
-Manga.prototype.updateChaptersRead = function(newChaptersRead) {
-    this.chaptersRead = newChaptersRead;
-}
+    set updateTotalChapters(newTotal) {
+        this.chapters = newTotal;
+    }
 
-/* 
- * TODO: Add update functions for both current and total chapters to the prototype of Manga
- */
-Manga.prototype.updateTotalChapters = function(newTotal) {
-    this.chapters = newTotal;
-}
-
-Manga.prototype.calculateProgress = function(chaptersRead, totalChapters) {
-    return  ((chaptersRead / totalChapters) * 100).toFixed(1);
+    calculateProgress(chaptersRead, chapters) {
+        return ((chaptersRead / totalChapters) * 100).toFixed(1);
+    }
 }
 
 // Library functions section //
@@ -266,16 +262,19 @@ function clearLocalLibrary() {
 
 // Debug Section //
 
-var badThinkingDiary = new Manga("Bad Thinking Diary", "Park Do-han", 7, 1, "ongoing");
-var unlock99 = new Manga("Unlock 99 Heroines in End Times", "Mr. Two Cats", 134, 45, "ongoing");
-var oreDake = new Manga("Ore Dake ni Koakuma na Doukyuusei", "Rifuru", 8, 1, "completed");
-var married = new Manga("I Got Married to a Villain", "빡킬 (copin) / 사동 / 십삼월의새벽", 1, 1, "cancelled");
-var married2 = new Manga("I Got Married to a Villain", "빡킬 (copin) / 사동 / 십삼월의새벽", 1, 1, "cancelled");
+// var badThinkingDiary = new Manga("Bad Thinking Diary", "Park Do-han", 7, 1, "ongoing");
+// var unlock99 = new Manga("Unlock 99 Heroines in End Times", "Mr. Two Cats", 134, 45, "ongoing");
+// var oreDake = new Manga("Ore Dake ni Koakuma na Doukyuusei", "Rifuru", 8, 1, "completed");
+// var married = new Manga("I Got Married to a Villain", "빡킬 (copin) / 사동 / 십삼월의새벽", 1, 1, "cancelled");
+// var married2 = new Manga("I Got Married to a Villain", "빡킬 (copin) / 사동 / 십삼월의새벽", 1, 1, "cancelled");
+// const factoryManga = mangaFactory('Manga Diary of a Male Pornstar','Kaeruno Erafante', 22, 22, 'ongoing');
 // addToLibrary(badThinkingDiary);
 // addToLibrary(unlock99);
 // addToLibrary(oreDake);
 // addToLibrary(married);
 // addToLibrary(married2);
+// console.log(married);
+// console.log(factoryManga);
 
 // make sure it update the grid upon loading the page
 updateBookGrid();
