@@ -95,7 +95,7 @@ class Manga {
     }
 
     calculateProgress(chaptersRead, chapters) {
-        return ((chaptersRead / totalChapters) * 100).toFixed(1);
+        return ((chaptersRead / chapters) * 100).toFixed(1);
     }
 }
 
@@ -114,10 +114,6 @@ function removeFromLibrary(id) {
         updateBookGrid();
     }
 }
-
-// function editLibraryItem(manga) {
-//     openEditModal(manga);
-// }
 
 function editLibraryItem(manga) {
     editModalError.textContent = "";
