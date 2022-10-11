@@ -11,7 +11,7 @@
     <link rel="shortcut icon" href="./assets/icons/cherry-blossom.png" type="image/x-icon">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
     <link rel="stylesheet" href="styles.css">
-    <script src="library.js" defer></script>
+    <script src="library.js" type="module" defer></script>
     <title>Manga Library | The Odin Project</title>
 </head>
 <body>
@@ -33,7 +33,7 @@
         <div class="modal">
             <span id="close-add-modal" class="material-symbols-outlined close-modal">close</span>
             <h1 class="modal-title">Add New Series</h1>
-            <form>
+            <form id="add-manga-form">
                 <div class="form-field">
                     <label for="title" class="required-field">Title</label>
                     <input type="text" name="title" id="title" required>
@@ -69,7 +69,7 @@
         <div class="modal">
             <span id="close-edit-modal" class="material-symbols-outlined close-modal">close</span>
             <h1 class="modal-title">Edit Series</h1>
-            <form name="edit">
+            <form id="edit-manga-form" name="edit">
                 <div class="form-field">
                     <label for="edit-title" class="required-field">Title</label>
                     <input type="text" name="edit-title" id="edit-title" required>
