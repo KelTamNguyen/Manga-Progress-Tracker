@@ -1,8 +1,8 @@
 import Manga from "./Manga.js";
 import  {
     addToLibrary,
-    removeFromLibrary,
-    editLibraryItem
+    isUnique,
+    removeFromLibrary
 } from './library.js';
 
 var bookGrid = document.querySelector('.book-grid');
@@ -34,7 +34,6 @@ function openEditModal(manga) {
     editMangaForm["edit-chapters"].value = chapters;
     editMangaForm["edit-chaptersRead"].value = chaptersRead;
     editMangaForm["edit-status"].value = status;
-    editLibraryItem(manga);
 }
 
 export function closeEditModal() {
@@ -95,36 +94,35 @@ export function createCard(manga) {
 
 export function addManga(e) {
     e.preventDefault();
-    console.log(e.target);
-    console.log(addMangaForm);
-    console.log('title: ', addMangaForm["title"].value);
-    console.log('author: ', addMangaForm["author"].value);
-    console.log('chapters: ', addMangaForm["chapters"].value);
-    console.log('chapters read: ', addMangaForm["chaptersRead"].value);
-    console.log('status: ', addMangaForm["status"].value);
     let title = document.querySelector('#title');
     let author = document.querySelector('#author');
     let chapters = document.querySelector('#chapters');
     let chaptersRead = document.querySelector('#chaptersRead');
     let status = document.querySelector('#status');
 
-    if ((title.value !== "") && (author.value !== "") && 
-        ((!isNaN(chapters.value) && !isNaN(chaptersRead.value)) && 
-        (chaptersRead.value <= chapters.value))) {
-        addToLibrary(title.value, author.value, chapters.value, chaptersRead.value, status.value);
-        newMangaModal.classList.remove('modal-active');
-        addMangaForm.reset();
-    }
-    else {
-        // if (chaptersRead.value > chapters.value) {
-        //     console.log('chapters: ', chapters.value);
-        //     addModalError.textContent = '* Chapters read is greater than Chapters';
-        // }
-        // else {
-        //     addModalError.textContent = '* Please fill all required fields';
-        // }
-        addModalError.textContent = '* Please refill the form';
-    }
+   if (isUnique(addMangaForm["title"].value, addMangaForm["author"].value)) {
+        if ((title.value !== "") && (author.value !== "") && 
+            ((!isNaN(chapters.value) && !isNaN(chaptersRead.value)) && 
+            (chaptersRead.value <= chapters.value))) {
+            addToLibrary(title.value, author.value, chapters.value, chaptersRead.value, status.value);
+            newMangaModal.classList.remove('modal-active');
+            addMangaForm.reset();
+        }
+        else {
+            // if (chaptersRead.value > chapters.value) {
+            //     console.log('chapters: ', chapters.value);
+            //     addModalError.textContent = '* Chapters read is greater than Chapters';
+            // }
+            // else {
+            //     addModalError.textContent = '* Please fill all required fields';
+            // }
+            addModalError.textContent = '* Please refill the form';
+        }
+   }
+   else {
+    alert('This title is already in your library!');
+   }
+
 }
 
 export function resetBookGrid() {
